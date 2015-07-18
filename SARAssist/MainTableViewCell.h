@@ -11,5 +11,6 @@
 @interface MainTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UILabel *title;
+@property (strong, nonatomic) IBOutlet UILabel *distance;
 
 @end

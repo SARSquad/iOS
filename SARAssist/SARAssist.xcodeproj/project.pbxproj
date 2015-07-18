@@ -37,6 +37,8 @@
 		7701B51C1B5AE3580002075C /* MainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7701B51B1B5AE3580002075C /* MainTableViewCell.m */; };
 		7701B5221B5AE43A0002075C /* RowTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7701B5211B5AE43A0002075C /* RowTableViewController.m */; };
 		7701B5251B5AE7120002075C /* RowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7701B5241B5AE7120002075C /* RowTableViewCell.m */; };
+		777BD7921B5AF61D009BDC5C /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 777BD7911B5AF61D009BDC5C /* MapViewController.m */; };
+		777BD7941B5AF7EA009BDC5C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 777BD7931B5AF7EA009BDC5C /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +91,9 @@
 		7701B5211B5AE43A0002075C /* RowTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RowTableViewController.m; path = ../RowTableViewController.m; sourceTree = "<group>"; };
 		7701B5231B5AE7120002075C /* RowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RowTableViewCell.h; path = ../RowTableViewCell.h; sourceTree = "<group>"; };
 		7701B5241B5AE7120002075C /* RowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RowTableViewCell.m; path = ../RowTableViewCell.m; sourceTree = "<group>"; };
+		777BD7901B5AF61D009BDC5C /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = ../MapViewController.h; sourceTree = "<group>"; };
+		777BD7911B5AF61D009BDC5C /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ../MapViewController.m; sourceTree = "<group>"; };
+		777BD7931B5AF7EA009BDC5C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				777BD7941B5AF7EA009BDC5C /* MapKit.framework in Frameworks */,
 				7701B5191B5ADEA10002075C /* libstdc++.6.dylib in Frameworks */,
 				7701B5171B5ADE950002075C /* libz.1.1.3.dylib in Frameworks */,
 				7701B5151B5ADE8A0002075C /* libsqlite3.dylib in Frameworks */,
@@ -192,6 +198,7 @@
 		7701B4F51B5ADBC90002075C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				777BD7931B5AF7EA009BDC5C /* MapKit.framework */,
 				7701B5181B5ADEA10002075C /* libstdc++.6.dylib */,
 				7701B5161B5ADE950002075C /* libz.1.1.3.dylib */,
 				7701B5141B5ADE8A0002075C /* libsqlite3.dylib */,
@@ -227,6 +234,8 @@
 		7701B51E1B5AE37E0002075C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				777BD7901B5AF61D009BDC5C /* MapViewController.h */,
+				777BD7911B5AF61D009BDC5C /* MapViewController.m */,
 				7701B5201B5AE43A0002075C /* RowTableViewController.h */,
 				7701B5211B5AE43A0002075C /* RowTableViewController.m */,
 				7701B4D21B5ADBA50002075C /* MainViewController.h */,
@@ -353,6 +362,7 @@
 				7701B51C1B5AE3580002075C /* MainTableViewCell.m in Sources */,
 				7701B4D11B5ADBA50002075C /* AppDelegate.m in Sources */,
 				7701B4CE1B5ADBA50002075C /* main.m in Sources */,
+				777BD7921B5AF61D009BDC5C /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +571,7 @@
 				7701B4ED1B5ADBA50002075C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7701B4EE1B5ADBA50002075C /* Build configuration list for PBXNativeTarget "SARAssistTests" */ = {
 			isa = XCConfigurationList;
@@ -569,6 +580,7 @@
 				7701B4F01B5ADBA50002075C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

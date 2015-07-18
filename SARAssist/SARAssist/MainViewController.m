@@ -153,6 +153,7 @@
      MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
      
      cell.title.text = @"Test";
+     cell.distance.text = @"0.5 miles away";
  
  
  return cell;
