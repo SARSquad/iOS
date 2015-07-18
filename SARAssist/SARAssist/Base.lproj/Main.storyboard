@@ -9,7 +9,7 @@
         <scene sceneID="cst-ll-6Rp">
             <objects>
                 <tableViewController id="0T3-Ry-031" customClass="MainViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ZsC-3j-uIa">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ZsC-3j-uIa">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -35,6 +35,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="title" destination="MJp-45-SQI" id="epd-59-IpJ"/>
+                                    <segue destination="zsi-gw-ly1" kind="show" id="eL1-vQ-wIg"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -44,9 +45,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="K3W-bc-7by"/>
-                    <connections>
-                        <segue destination="zsi-gw-ly1" kind="show" id="NzX-DZ-vFs"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="INF-hh-M5N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
