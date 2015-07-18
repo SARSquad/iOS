@@ -10,20 +10,11 @@
 #import "MainTableViewCell.h"
 
 @interface MainViewController ()
-
+@property (nonatomic, strong) NSArray *searchAreas;
+@property (nonatomic, strong) PFGeoPoint *currentLocation;
 @end
 
 @implementation MainViewController
-
--(void)viewWillAppear:(BOOL)animated{
-    if ([PFUser currentUser]) {
-     NSLog(@"%@", [NSString stringWithFormat:NSLocalizedString(@"Welcome %@!", nil), [[PFUser currentUser] username]]);
-     } else {
-     NSLog(@"%@", NSLocalizedString(@"Not logged in", nil));
-     }
-    
-
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -48,7 +39,37 @@
         }
         
     });
-
+    
+    
+    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+        if (geoPoint) {
+            //save current location
+            self.currentLocation = geoPoint;
+            
+            //Find seaches near us
+            PFQuery *query = [PFQuery queryWithClassName:@"SearchArea"];
+            
+            [query whereKey:@"IsComplete" equalTo:[NSNumber numberWithBool:false]];
+            [query whereKey:@"Location" nearGeoPoint:geoPoint withinMiles:100];
+            
+            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if (!error) {
+                    
+                    self.searchAreas = objects;
+                    [self.tableView reloadData];
+                    
+                } else {
+                    // Log details of the failure
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+            }];
+            
+        }
+        else
+        {
+        }
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -143,18 +164,23 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 1;
+
+    if (self.searchAreas) {
+        return [self.searchAreas count];
+    }
+    
+    return 0;
 }
 
 
  - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
      MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
      
-     cell.title.text = @"Test";
-     cell.distance.text = @"0.5 miles away";
- 
+     cell.title.text = self.searchAreas[indexPath.row][@"Name"];
+     
+     double distance = [self.currentLocation distanceInMilesTo:self.searchAreas[indexPath.row][@"Location"]];
+     
+     cell.distance.text = [NSString stringWithFormat:@"%.1f miles away", distance];
  
  return cell;
  }
@@ -167,8 +193,6 @@
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
  }
-
-
 
 
 
