@@ -171,6 +171,10 @@
         [obj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 
+                RowTableViewCell *cell = (RowTableViewCell*)[self.tableView cellForRowAtIndexPath:path];
+                cell.title.text = [[PFUser currentUser]username];
+                cell.subtitle.text = [NSDateFormatter localizedStringFromDate:[obj updatedAt] dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterFullStyle];
+                
             } else {
                 // There was a problem, check error.description
                 NSLog(@"Failure");
