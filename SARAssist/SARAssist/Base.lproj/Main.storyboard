@@ -111,7 +111,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="932-aP-kih">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="932-aP-kih">
                                 <rect key="frame" x="26" y="74" width="548" height="516"/>
                             </mapView>
                         </subviews>
@@ -123,6 +123,9 @@
                             <constraint firstItem="932-aP-kih" firstAttribute="leading" secondItem="2mw-eX-uUo" secondAttribute="leadingMargin" constant="10" id="nei-6J-8kY"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="map" destination="932-aP-kih" id="8Jc-Fp-ily"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ccv-et-p7p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

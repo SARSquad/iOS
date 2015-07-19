@@ -137,7 +137,7 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
+#warning Need to mark blocks as selected
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
     
     MapViewController *controller = [segue destinationViewController];
