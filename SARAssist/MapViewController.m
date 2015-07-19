@@ -21,6 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.map setDelegate:self];
+    
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         if (geoPoint) {
             //Save the current location
@@ -28,11 +30,8 @@
             
             [self positionMap:self.map ToLocation:self.currentLocation];
             
-            //[self positionMap:self.map ToLocation:self.selectedBlocks[0][@"Location"]];
-            
-            for (PFObject *obj in self.selectedBlocks) {
-                [self addLocation:obj[@"Location"] toMap:self.map];
-            }
+
+            [self addAllAnnotations];
             
         }
         else
@@ -57,14 +56,123 @@
     region.span.latitudeDelta = spanX;
     region.span.longitudeDelta = spanY;
 
-    [map setRegion:region animated:YES];
+    [map setRegion:region animated:NO];
 }
--(void)addLocation:(PFGeoPoint*)location toMap:(MKMapView*)map{
+
+-(MKAnnotationView*)mapView:(MKMapView*)mapView viewForAnnotation:(id <MKAnnotation>)annotation{
+    // If it's the user location, just return nil.
+    if ([annotation isKindOfClass:[MKUserLocation class]]){
+        return nil;
+    }
+
     
-    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    [annotation setCoordinate:CLLocationCoordinate2DMake(location.latitude, location.longitude)];
-    [annotation setTitle:@"Title"];
-    [map addAnnotation:annotation];
+    // Handle any custom annotations.
+    if ([annotation isKindOfClass:[SARAnnotation class]])
+    {
+        // Try to dequeue an existing pin view first.
+        MKPinAnnotationView *pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomPinAnnotationView"];
+        
+        SARAnnotation *ann = (SARAnnotation*)annotation;
+        
+        if (!pinView)
+        {
+            // If an existing pin view was not available, create one.
+            pinView = [ann annotationView];
+
+
+        } else {
+            pinView.annotation = annotation;
+        }
+        return pinView;
+    }
+
+    return nil;
+}
+
+#pragma mark SARAnnotation Delegate
+-(void)buttonWasPressedOnSARAnnotation:(id)annotation{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Mark as complete?" message:@"Are you sure you want to mark this block as complete?" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+        alertController.popoverPresentationController.sourceView = self.view;
+        
+        alertController.popoverPresentationController.sourceRect = CGRectMake((self.view.bounds.origin.x /2) - 10, (self.view.bounds.origin.y / 2)-10, 20, 20);
+        
+    }
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Select Row" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+
+        SARAnnotation *ann = (SARAnnotation*)annotation;
+        
+        //PFObject *blockToUpdate;
+        
+        NSString *a = [ann.title substringFromIndex:9];
+        NSString *b = [a substringToIndex:1];
+        int col = [b intValue];
+        
+        /*for (PFObject *obj in self.selectedBlocks) {
+            if ([obj[@"Column"]intValue] == col) {
+                blockToUpdate = obj;
+                break;
+            }
+        }*/
+
+        PFObject *blockToUpdate = self.selectedBlocks[col];
+        
+        blockToUpdate[@"IsComplete"] = [NSNumber numberWithBool:NO];
+        
+        [blockToUpdate saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                
+                //refresh the annotation pins
+                [self removeAllAnnotations];
+                [self addAllAnnotations];
+            } else {
+                // There was a problem, check error.description
+                NSLog(@"Failure");
+            }
+        }];
+        
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [self presentViewController:alertController animated:true completion:nil];
+
+}
+
+-(void)removeAllAnnotations
+{
+    //Remove all added annotations
+    [self.map removeAnnotations:self.map.annotations];
+
+}
+
+-(void)addAllAnnotations{
+    
+    for (PFObject *obj in self.selectedBlocks) {
+        
+        [obj fetchIfNeeded];
+        
+        NSString *title = [NSString stringWithFormat:@"R: %d, C: %d", [obj[@"Row"]intValue], [obj[@"Column"]intValue]];
+        MKPinAnnotationColor color = MKPinAnnotationColorRed;
+        PFGeoPoint *pinLocation = obj[@"Location"];
+        if ([obj[@"IsComplete"] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+            color = MKPinAnnotationColorGreen;
+        }
+        
+        SARAnnotation *annotation = [[SARAnnotation alloc] initWithTitle:title Location:CLLocationCoordinate2DMake(pinLocation.latitude, pinLocation.longitude) Color:color];
+        
+        annotation.delegate = self;
+        
+        [self.map addAnnotation:annotation];
+        
+    }
+    
     
 }
 

@@ -29,6 +29,7 @@
             PFQuery *query = [PFQuery queryWithClassName:@"Block"];
             
             [query whereKey:@"SearchAreaID" equalTo:self.selectedArea[@"SearchAreaID"]];
+            [query orderByAscending:@"Column"];
             
             [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 if (!error) {
