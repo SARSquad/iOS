@@ -164,7 +164,10 @@
     for (PFObject *obj in self.selectedBlocks) {
         
         NSString *title = [NSString stringWithFormat:@"R: %d, C: %d", [obj[@"Row"]intValue], [obj[@"Column"]intValue]];
+        
         PFGeoPoint *pinLocation = obj[@"Location"];
+        
+        //PFGeoPoint *pinLocation = [PFGeoPoint geoPointWithLatitude:[obj[@"Latitude"] doubleValue] longitude:[obj[@"Longitude"] doubleValue]];
         
         MKPinAnnotationColor color = MKPinAnnotationColorRed;
         

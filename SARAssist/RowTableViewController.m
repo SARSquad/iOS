@@ -30,6 +30,7 @@
             
             [query whereKey:@"SearchAreaID" equalTo:self.selectedArea[@"SearchAreaID"]];
             [query orderByAscending:@"Column"];
+            [query setLimit:1000];
             
             [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 if (!error) {
@@ -129,8 +130,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     RowTableViewCell *cell = (RowTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    if ([cell.title.text isEqualToString:@"Not Assigned"]) {
-        
+    if ([cell.title.text isEqualToString:@"Not Assigned"] || [cell.title.text isEqualToString:[[PFUser currentUser]username]]) {
         
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Select Row?" message:@"Are you sure you want to select this row?" preferredStyle:UIAlertControllerStyleActionSheet];
@@ -163,8 +163,22 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-#warning Need to mark blocks as selected
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+    
+    for (PFObject *obj in self.blockRows[path.row]) {
+        obj[@"AssignedTo"] = [PFUser currentUser];
+        
+        [obj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                
+            } else {
+                // There was a problem, check error.description
+                NSLog(@"Failure");
+            }
+        }];
+        
+    }
+
     
     MapViewController *controller = [segue destinationViewController];
     
