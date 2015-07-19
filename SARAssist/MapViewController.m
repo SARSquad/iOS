@@ -69,10 +69,16 @@
     // Handle any custom annotations.
     if ([annotation isKindOfClass:[SARAnnotation class]])
     {
-        // Try to dequeue an existing pin view first.
-        MKPinAnnotationView *pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomPinAnnotationView"];
-        
+
         SARAnnotation *ann = (SARAnnotation*)annotation;
+        
+        MKPinAnnotationView *pinView;
+        
+        if (ann.color == MKPinAnnotationColorRed) {
+            pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"redColorPin"];
+        }else{
+            pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"greenColorPin"];
+        }
         
         if (!pinView)
         {
@@ -101,7 +107,7 @@
         
     }
     
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Select Row" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Complete Pin" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
 
         SARAnnotation *ann = (SARAnnotation*)annotation;
@@ -121,7 +127,7 @@
 
         PFObject *blockToUpdate = self.selectedBlocks[col];
         
-        blockToUpdate[@"IsComplete"] = [NSNumber numberWithBool:NO];
+        blockToUpdate[@"IsComplete"] = [NSNumber numberWithBool:YES];
         
         [blockToUpdate saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
@@ -129,6 +135,7 @@
                 //refresh the annotation pins
                 [self removeAllAnnotations];
                 [self addAllAnnotations];
+                
             } else {
                 // There was a problem, check error.description
                 NSLog(@"Failure");
@@ -156,11 +163,11 @@
     
     for (PFObject *obj in self.selectedBlocks) {
         
-        [obj fetchIfNeeded];
-        
         NSString *title = [NSString stringWithFormat:@"R: %d, C: %d", [obj[@"Row"]intValue], [obj[@"Column"]intValue]];
-        MKPinAnnotationColor color = MKPinAnnotationColorRed;
         PFGeoPoint *pinLocation = obj[@"Location"];
+        
+        MKPinAnnotationColor color = MKPinAnnotationColorRed;
+        
         if ([obj[@"IsComplete"] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
             color = MKPinAnnotationColorGreen;
         }
