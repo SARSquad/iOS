@@ -98,10 +98,20 @@
     //Get the first object in the current row
     PFObject *obj = [self.blockRows[indexPath.row]firstObject];
     
-    if (obj[@"AssignedTo"] && ![obj[@"AssignedTo"] isEqualToString:@""]) {
-        cell.title.text = obj[@"AssignedTo"];
-        cell.subtitle.text = obj[@"updatedAt"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    if (obj[@"AssignedTo"]) {
+        PFUser *user = obj[@"AssignedTo"];
+        //PFObject
+        [user  fetchIfNeededInBackgroundWithBlock:^(PFObject *obj, NSError *error) {
+
+            cell.title.text = [user username];
+        
+            
+            cell.subtitle.text = [NSDateFormatter localizedStringFromDate:[obj updatedAt] dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterFullStyle];
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+         }];
         
     }else{
         cell.title.text = @"Not Assigned";
@@ -116,20 +126,35 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Select Row?" message:@"Are you sure you want to select this row?" preferredStyle:UIAlertControllerStyleActionSheet];
     
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Select Row" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    RowTableViewCell *cell = (RowTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    if ([cell.title.text isEqualToString:@"Not Assigned"]) {
         
         
-        [self performSegueWithIdentifier:@"segue" sender:self];
         
-    }]];
-    
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Select Row?" message:@"Are you sure you want to select this row?" preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+            alertController.popoverPresentationController.sourceView = self.view;
+            RowTableViewCell *cell = (RowTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+            
+            alertController.popoverPresentationController.sourceRect = CGRectMake((cell.bounds.origin.x + cell.title.bounds.size.width), cell.bounds.origin.y, 20, 20);
 
-    }]];
-    
-    [self presentViewController:alertController animated:true completion:nil];
+        }
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Select Row" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+            
+            [self performSegueWithIdentifier:@"segue" sender:self];
+            
+        }]];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+
+        }]];
+        
+        [self presentViewController:alertController animated:true completion:nil];
+    }
 }
 
 
