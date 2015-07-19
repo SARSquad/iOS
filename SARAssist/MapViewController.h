@@ -11,4 +11,7 @@
 
 @interface MapViewController : UIViewController
 
+@property (nonatomic, strong)NSArray *selectedBlocks;
+
 @end
+

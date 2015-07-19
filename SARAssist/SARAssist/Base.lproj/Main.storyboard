@@ -61,42 +61,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="FWY-Sp-iq4" customClass="RowTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="QbH-4M-yF9" detailTextLabel="cfk-0O-Fwg" style="IBUITableViewCellStyleSubtitle" id="FWY-Sp-iq4" customClass="RowTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FWY-Sp-iq4" id="fal-re-WdG">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Row #" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRC-46-ZYH">
-                                            <rect key="frame" x="13" y="13" width="116" height="17.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="116" id="ODk-60-spu"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QbH-4M-yF9">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Diu-zb-ilr">
-                                            <rect key="frame" x="369" y="13" width="218" height="17.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="218" id="Wdf-fZ-FKp"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cfk-0O-Fwg">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="Diu-zb-ilr" secondAttribute="trailing" constant="5" id="7oa-9Y-A3S"/>
-                                        <constraint firstItem="Diu-zb-ilr" firstAttribute="top" secondItem="fal-re-WdG" secondAttribute="topMargin" constant="5" id="EXS-91-wwd"/>
-                                        <constraint firstItem="KRC-46-ZYH" firstAttribute="leading" secondItem="fal-re-WdG" secondAttribute="leadingMargin" constant="5" id="f8b-7M-djN"/>
-                                        <constraint firstItem="KRC-46-ZYH" firstAttribute="top" secondItem="fal-re-WdG" secondAttribute="topMargin" constant="5" id="jDF-dK-ZXR"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="Diu-zb-ilr" secondAttribute="bottom" constant="5" id="jfy-sT-uZg"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="KRC-46-ZYH" secondAttribute="bottom" constant="5" id="yt1-b2-s8e"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="title" destination="KRC-46-ZYH" id="Z3N-lC-P4z"/>
-                                    <outlet property="username" destination="Diu-zb-ilr" id="wch-Mm-sti"/>
+                                    <outlet property="subtitle" destination="cfk-0O-Fwg" id="fc7-Hr-pg8"/>
+                                    <outlet property="title" destination="QbH-4M-yF9" id="3EL-rm-PPE"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

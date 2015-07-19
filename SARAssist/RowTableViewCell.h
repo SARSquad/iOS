@@ -10,6 +10,6 @@
 
 @interface RowTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *title;
-@property (strong, nonatomic) IBOutlet UILabel *username;
+@property (strong, nonatomic) IBOutlet UILabel *subtitle;
 
 @end

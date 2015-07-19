@@ -10,8 +10,10 @@
 #import "RowTableViewCell.h"
 #import <Parse/Parse.h>
 
+#import "MapViewController.h"
 @interface RowTableViewController ()
-
+@property (nonatomic, strong)NSArray *blockRows;
+@property (nonatomic, strong)PFGeoPoint *currentLocation;
 @end
 
 @implementation RowTableViewController
@@ -19,11 +21,55 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+        if (geoPoint) {
+            //Save the current location
+            self.currentLocation = geoPoint;
+            
+            PFQuery *query = [PFQuery queryWithClassName:@"Block"];
+            
+            [query whereKey:@"SearchAreaID" equalTo:self.selectedArea[@"SearchAreaID"]];
+            
+            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if (!error) {
+                    
+                    NSMutableArray *arr = [[NSMutableArray alloc]init];
+                    
+                    int max = -1;
+                    for (PFObject *obj in objects) {
+                        if ([obj[@"Row"] intValue] > max) {
+                            max = [obj[@"Row"]intValue];
+                        }
+                    }
+                    
+                    //row starts at 0, therefore max is one less than expected
+                    for (int i = 0; i <= max; i++) {
+                        NSMutableArray *obj = [[NSMutableArray alloc]init];
+                        [arr addObject:obj];
+                    }
+                    
+                    for (PFObject *obj in objects) {
+                        int index = [obj[@"Row"]intValue];
+                        [arr[index] addObject:obj];
+                    }
+                    
+                    self.blockRows = [arr copy];
+                    
+                    [self.tableView reloadData];
+                    
+                } else {
+                    // Log details of the failure
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+            }];
+            
+        }
+        else
+        {
+        }
+        
+    }];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,17 +85,30 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 1;
+    if (self.blockRows) {
+        return [self.blockRows count];
+    }
+    return 0;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RowTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    cell.title.text = @"Row 1";
-    cell.username.text = [[PFUser currentUser]username];
+    //Get the first object in the current row
+    PFObject *obj = [self.blockRows[indexPath.row]firstObject];
+    
+    if (obj[@"AssignedTo"] && ![obj[@"AssignedTo"] isEqualToString:@""]) {
+        cell.title.text = obj[@"AssignedTo"];
+        cell.subtitle.text = obj[@"updatedAt"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+    }else{
+        cell.title.text = @"Not Assigned";
+        double distance = [self.currentLocation distanceInMilesTo:obj[@"Location"]];
+        cell.subtitle.text = [NSString stringWithFormat:@"%.1f miles away", distance];
+    }
+
     
     // Configure the cell...
     
@@ -60,7 +119,8 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Select Row?" message:@"Are you sure you want to select this row?" preferredStyle:UIAlertControllerStyleActionSheet];
     
     [alertController addAction:[UIAlertAction actionWithTitle:@"Select Row" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-
+        
+        
         [self performSegueWithIdentifier:@"segue" sender:self];
         
     }]];
@@ -72,14 +132,18 @@
     [self presentViewController:alertController animated:true completion:nil];
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+
+    NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+    
+    MapViewController *controller = [segue destinationViewController];
+    
+    controller.selectedBlocks = self.blockRows[path.row];
 }
-*/
+
 
 @end
