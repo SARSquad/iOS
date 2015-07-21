@@ -8,6 +8,8 @@
 
 #import "RowTableViewController.h"
 #import "RowTableViewCell.h"
+#import "BlockModel.h"
+
 #import <Parse/Parse.h>
 
 #import "MapViewController.h"
@@ -26,9 +28,9 @@
             //Save the current location
             self.currentLocation = geoPoint;
             
-            PFQuery *query = [PFQuery queryWithClassName:@"Block"];
+            PFQuery *query = [BlockModel query];
             
-            [query whereKey:@"SearchAreaID" equalTo:self.selectedArea[@"SearchAreaID"]];
+            [query whereKey:@"SearchAreaID" equalTo:self.selectedArea.SearchAreaID];
             [query orderByAscending:@"Column"];
             [query setLimit:1000];
             
@@ -38,9 +40,9 @@
                     NSMutableArray *arr = [[NSMutableArray alloc]init];
                     
                     int max = -1;
-                    for (PFObject *obj in objects) {
-                        if ([obj[@"Row"] intValue] > max) {
-                            max = [obj[@"Row"]intValue];
+                    for (BlockModel *obj in objects) {
+                        if (obj.Row > max) {
+                            max = obj.Row;
                         }
                     }
                     
@@ -50,8 +52,8 @@
                         [arr addObject:obj];
                     }
                     
-                    for (PFObject *obj in objects) {
-                        int index = [obj[@"Row"]intValue];
+                    for (BlockModel *obj in objects) {
+                        int index = obj.Row;
                         [arr[index] addObject:obj];
                     }
                     
@@ -98,11 +100,11 @@
     RowTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     //Get the first object in the current row
-    PFObject *obj = [self.blockRows[indexPath.row]firstObject];
+    BlockModel *obj = [self.blockRows[indexPath.row]firstObject];
     
     
-    if (obj[@"AssignedTo"]) {
-        PFUser *user = obj[@"AssignedTo"];
+    if (obj.AssignedTo) {
+        PFUser *user = obj.AssignedTo;
         //PFObject
         [user  fetchIfNeededInBackgroundWithBlock:^(PFObject *obj, NSError *error) {
 
@@ -117,7 +119,7 @@
         
     }else{
         cell.title.text = @"Not Assigned";
-        double distance = [self.currentLocation distanceInMilesTo:obj[@"Location"]];
+        double distance = [self.currentLocation distanceInMilesTo:obj.Location];
         cell.subtitle.text = [NSString stringWithFormat:@"%.1f miles away", distance];
     }
 
@@ -165,8 +167,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
     
-    for (PFObject *obj in self.blockRows[path.row]) {
-        obj[@"AssignedTo"] = [PFUser currentUser];
+    for (BlockModel *obj in self.blockRows[path.row]) {
+        obj.AssignedTo = [PFUser currentUser];
         
         [obj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {

@@ -7,6 +7,8 @@
 //
 
 #import "MapViewController.h"
+#import "BlockModel.h"
+
 #import <Parse/Parse.h>
 
 @interface MapViewController ()
@@ -112,22 +114,13 @@
 
         SARAnnotation *ann = (SARAnnotation*)annotation;
         
-        //PFObject *blockToUpdate;
-        
         NSString *a = [ann.title substringFromIndex:9];
         NSString *b = [a substringToIndex:1];
         int col = [b intValue];
-        
-        /*for (PFObject *obj in self.selectedBlocks) {
-            if ([obj[@"Column"]intValue] == col) {
-                blockToUpdate = obj;
-                break;
-            }
-        }*/
 
-        PFObject *blockToUpdate = self.selectedBlocks[col];
+        BlockModel *blockToUpdate = self.selectedBlocks[col];
         
-        blockToUpdate[@"IsComplete"] = [NSNumber numberWithBool:YES];
+        blockToUpdate.IsComplete = YES;
         
         [blockToUpdate saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
@@ -161,21 +154,18 @@
 
 -(void)addAllAnnotations{
     
-    for (PFObject *obj in self.selectedBlocks) {
+    for (BlockModel *obj in self.selectedBlocks) {
         
-        NSString *title = [NSString stringWithFormat:@"R: %d, C: %d", [obj[@"Row"]intValue], [obj[@"Column"]intValue]];
+        NSString *title = [NSString stringWithFormat:@"R: %d, C: %d", obj.Row, obj.Column];
         
-        PFGeoPoint *pinLocation = obj[@"Location"];
-        
-        //PFGeoPoint *pinLocation = [PFGeoPoint geoPointWithLatitude:[obj[@"Latitude"] doubleValue] longitude:[obj[@"Longitude"] doubleValue]];
         
         MKPinAnnotationColor color = MKPinAnnotationColorRed;
         
-        if ([obj[@"IsComplete"] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+        if (obj.IsComplete) {
             color = MKPinAnnotationColorGreen;
         }
         
-        SARAnnotation *annotation = [[SARAnnotation alloc] initWithTitle:title Location:CLLocationCoordinate2DMake(pinLocation.latitude, pinLocation.longitude) Color:color];
+        SARAnnotation *annotation = [[SARAnnotation alloc] initWithTitle:title Location:[obj CLLoction] Color:color];
         
         annotation.delegate = self;
         

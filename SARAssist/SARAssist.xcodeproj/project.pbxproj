@@ -37,6 +37,8 @@
 		7701B51C1B5AE3580002075C /* MainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7701B51B1B5AE3580002075C /* MainTableViewCell.m */; };
 		7701B5221B5AE43A0002075C /* RowTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7701B5211B5AE43A0002075C /* RowTableViewController.m */; };
 		7701B5251B5AE7120002075C /* RowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7701B5241B5AE7120002075C /* RowTableViewCell.m */; };
+		77191C5F1B5DB82500BE3AAF /* BlockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77191C5E1B5DB82500BE3AAF /* BlockModel.m */; };
+		77191C621B5DBE2F00BE3AAF /* AreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77191C611B5DBE2F00BE3AAF /* AreaModel.m */; };
 		777BD7921B5AF61D009BDC5C /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 777BD7911B5AF61D009BDC5C /* MapViewController.m */; };
 		777BD7941B5AF7EA009BDC5C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 777BD7931B5AF7EA009BDC5C /* MapKit.framework */; };
 		779C3FEE1B5B52D300BFEA7C /* SARAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 779C3FED1B5B52D300BFEA7C /* SARAnnotation.m */; };
@@ -92,6 +94,10 @@
 		7701B5211B5AE43A0002075C /* RowTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RowTableViewController.m; path = ../RowTableViewController.m; sourceTree = "<group>"; };
 		7701B5231B5AE7120002075C /* RowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RowTableViewCell.h; path = ../RowTableViewCell.h; sourceTree = "<group>"; };
 		7701B5241B5AE7120002075C /* RowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RowTableViewCell.m; path = ../RowTableViewCell.m; sourceTree = "<group>"; };
+		77191C5D1B5DB82500BE3AAF /* BlockModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlockModel.h; path = ../BlockModel.h; sourceTree = "<group>"; };
+		77191C5E1B5DB82500BE3AAF /* BlockModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlockModel.m; path = ../BlockModel.m; sourceTree = "<group>"; };
+		77191C601B5DBE2F00BE3AAF /* AreaModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AreaModel.h; path = ../AreaModel.h; sourceTree = "<group>"; };
+		77191C611B5DBE2F00BE3AAF /* AreaModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AreaModel.m; path = ../AreaModel.m; sourceTree = "<group>"; };
 		777BD7901B5AF61D009BDC5C /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = ../MapViewController.h; sourceTree = "<group>"; };
 		777BD7911B5AF61D009BDC5C /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ../MapViewController.m; sourceTree = "<group>"; };
 		777BD7931B5AF7EA009BDC5C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -250,6 +256,10 @@
 		7701B51F1B5AE39C0002075C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				77191C601B5DBE2F00BE3AAF /* AreaModel.h */,
+				77191C611B5DBE2F00BE3AAF /* AreaModel.m */,
+				77191C5D1B5DB82500BE3AAF /* BlockModel.h */,
+				77191C5E1B5DB82500BE3AAF /* BlockModel.m */,
 				779C3FEC1B5B52D300BFEA7C /* SARAnnotation.h */,
 				779C3FED1B5B52D300BFEA7C /* SARAnnotation.m */,
 				7701B5231B5AE7120002075C /* RowTableViewCell.h */,
@@ -361,8 +371,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77191C621B5DBE2F00BE3AAF /* AreaModel.m in Sources */,
 				7701B5221B5AE43A0002075C /* RowTableViewController.m in Sources */,
 				7701B4D41B5ADBA50002075C /* MainViewController.m in Sources */,
+				77191C5F1B5DB82500BE3AAF /* BlockModel.m in Sources */,
 				7701B5251B5AE7120002075C /* RowTableViewCell.m in Sources */,
 				779C3FEE1B5B52D300BFEA7C /* SARAnnotation.m in Sources */,
 				7701B51C1B5AE3580002075C /* MainTableViewCell.m in Sources */,

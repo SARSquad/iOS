@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "AreaModel.h"
 
 @interface RowTableViewController : UITableViewController
 
-@property (nonatomic, strong)PFObject *selectedArea;
+@property (nonatomic, strong) AreaModel *selectedArea;
 
 @end

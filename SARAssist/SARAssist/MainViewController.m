@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "MainTableViewCell.h"
+#import "AreaModel.h"
 
 #import "RowTableViewController.h"
 
@@ -49,10 +50,11 @@
             self.currentLocation = geoPoint;
             
             //Find seaches near us
-            PFQuery *query = [PFQuery queryWithClassName:@"SearchArea"];
+
+            PFQuery *query = [AreaModel query];
             
             [query whereKey:@"IsComplete" equalTo:[NSNumber numberWithBool:false]];
-            [query whereKey:@"Location" nearGeoPoint:geoPoint withinMiles:100];
+            //[query whereKey:@"Location" nearGeoPoint:geoPoint withinMiles:50];
             
             [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 if (!error) {
@@ -178,9 +180,11 @@
  - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
      MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
      
-     cell.title.text = self.searchAreas[indexPath.row][@"Name"];
+     AreaModel *area = (AreaModel*)self.searchAreas[indexPath.row];
      
-     double distance = [self.currentLocation distanceInMilesTo:self.searchAreas[indexPath.row][@"Location"]];
+     cell.title.text = area.Name;
+     
+     double distance = [self.currentLocation distanceInMilesTo:area.Location];
      
      cell.distance.text = [NSString stringWithFormat:@"%.1f miles away", distance];
  
