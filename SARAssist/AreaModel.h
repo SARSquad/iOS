@@ -12,15 +12,20 @@
 
 @interface AreaModel : PFObject<PFSubclassing>
 
-+ (NSString*)parseClassName;
+
 
 @property (retain)NSString *Name;
+
 @property (retain)PFGeoPoint *Location;
-@property BOOL IsComplete;
 @property (retain)NSNumber *NorthEastLat;
 @property (retain)NSNumber *NorthEastLng;
 @property (retain)NSNumber *SouthWestLat;
 @property (retain)NSNumber *SouthWestLng;
+
+@property BOOL IsComplete;
+
 @property (retain)NSString *SearchAreaID;
+
++ (NSString*)parseClassName;
 
 @end

@@ -12,18 +12,23 @@
 
 @interface BlockModel : PFObject<PFSubclassing>
 
-+ (NSString*)parseClassName;
+
 
 @property (retain)PFUser *AssignedTo;
+
 @property int Column;
 @property int Row;
+
 @property BOOL IsComplete;
+
+@property (retain)PFGeoPoint *Location;
 @property double Latitude;
 @property double Longitude;
-@property (retain)PFGeoPoint *Location;
+
 @property (retain) NSString *SearchAreaID;
 
 -(CLLocationCoordinate2D)CLLoction;
 
++ (NSString*)parseClassName;
 
 @end
